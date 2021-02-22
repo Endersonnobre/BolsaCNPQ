@@ -1,0 +1,145 @@
+//Create table
+CREATE TABLE public."BolsaCNPQ"
+(
+	est varchar(200) not null,
+	mun varchar(200) not null,
+	cod_mant varchar(20) not null,
+	cnpj_mant varchar(200) not null,
+	mant varchar(200) not null,
+	mun_mant varchar(20) not null,
+	cod_ies varchar(20) not null,
+	no_ies varchar(200),
+	mun_ies varchar(20) not null,
+	proc varchar(20) not null,
+	contrato varchar(20) not null,
+	cod_adit varchar(20) not null,
+	cod_agfin varchar(20) not null,
+	agfin varchar(200) not null,
+	sg_agfin varchar(10) not null, 
+	nu_mes varchar(20) not null, 
+	nu_sem varchar(20) not null,
+	nu_ano varchar(20) not null,
+	vl_mens varchar(20) not null, 
+	insc varchar(20) not null, 
+	tp_fianca varchar(1) not null,
+	ano_insc varchar(20) not null,
+	p_prouni varchar(10) not null,
+	p_solicit varchar(10) not null, 
+	vl_repass varchar(20) not null,
+	dt_nasc varchar(20) not null,
+	st_def varchar(1) not null,
+	st_escola varchar(1) not null,
+	cod_cidade varchar(20) not null,
+	sg_sexo varchar(1) not null,
+	sexo varchar (50) not null, 
+	cod_estcivil varchar(10) not null,
+	est_civil varchar(50) not null,
+	sg_raca varchar(1) not null,
+	raca varchar(50) not null,
+	insc_ext varchar(20) not null,
+	contrato_extv varchar(20) not null, 
+	cod_ies_ext varchar(20) not null, 
+	ies_ext varchar(200) not null,
+	cod_campus varchar(20) not null,
+	campus varchar(200) not null,
+	p_finan varchar(20) not null,
+	vlmens_ext varchar(20) not null,
+	qtsem_fin varchar(20) not null,
+	cod_adit_ext varchar(20) not null,
+	cod_curso varchar(20) not null, 
+	curso  varchar(200) not null,
+	cod_tpcurso varchar(20) not null,
+	tipo_curso varchar(200) not null,
+	cod_periodic varchar(20) not null,
+	periodic varchar(200) not null,
+	vl_semestre varchar(20) not null,
+	ano_proc varchar(20) not null,
+	mes_proc varchar(20) not null
+)
+;
+
+
+
+/Consulta 1
+SELECT CAST(vl_mens AS FLOAT), est, curso, no_ies, mun FROM public."BolsaCNPQ"
+WHERE est = 'BA' OR est = 'AL' OR est = 'CE' OR est = 'MA' OR est = 'PB'
+OR est = 'PE' OR est = 'PI' OR est = 'RN' OR est = 'SE' 
+AND nu_mes = '9' AND nu_ano = '2019'
+ORDER BY CAST(vl_mens AS FLOAT) DESC
+LIMIT 10 
+
+/Consulta 2
+SELECT  DISTINCT(no_ies), COUNT(insc), est, mun FROM public."BolsaCNPQ"
+WHERE est = 'BA' OR est = 'AL' OR est = 'CE' OR est = 'MA' OR est = 'PB'
+OR est = 'PE' OR est = 'PI' OR est = 'RN' OR est = 'SE' 
+AND nu_mes = '9' AND nu_ano = '2019' 
+GROUP BY no_ies, est, mun
+ORDER BY COUNT(insc) DESC
+LIMIT 10 
+
+
+/Consulta 3
+SELECT  DISTINCT(curso), COUNT(insc), est, mun FROM public."BolsaCNPQ"
+WHERE est = 'BA' OR est = 'AL' OR est = 'CE' OR est = 'MA' OR est = 'PB'
+OR est = 'PE' OR est = 'PI' OR est = 'RN' OR est = 'SE' 
+AND nu_mes = '9' AND nu_ano = '2019' 
+GROUP BY curso, est, mun
+ORDER BY COUNT(insc) DESC
+LIMIT 10
+
+
+
+
+/Gráfico consulta 1
+import plotly.graph_objects as go
+
+fig = go.Figure(data=go.Scatter(
+    x=["ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL", "ESCOLA SUPERIOR DE AVIA?O CIVIL"],
+    y=[15718.51, 15718.51, 15718.51, 15718.51, 15718.51, 14000.76, 14000.76, 14000.74, 14000.74, 14000.74],
+    mode='markers',
+    marker=dict(size=[40, 60, 80, 100, 40, 60, 80, 100, 40],
+                color=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+))
+
+fig.show()
+
+
+
+/Gráfico consulta 2
+
+import plotly.graph_objects as go
+
+fig = go.Figure(data=go.Scatter(
+    x=["CENTRO UNIVERSIT?RIO INTA", "CENTRO UNIVERSIT?RIO SANTO AGOSTINHO", "CENTRO UNIVERSIT?RIO JORGE AMADO", "Centro Universit?io FG", "Centro Universit?io FG", "FACULDADE DO SUL", "CENTRO UNIVERSIT?RIO ATENEU", "FACULDADE DE ENSINO SUPERIOR DA CIDADE DE FEIRA DE SANTANA", "FACULDADE NOBRE DE FEIRA DE SANTANA", "UNIVERSIDADE POTIGUAR"],
+    y=[4845, 4133, 3549, 3500, 3445, 3117, 3015, 2880, 2498, 2378],
+    mode='markers',
+    marker=dict(size=[40, 60, 80, 100, 40, 60, 80, 100, 40],
+                color=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+))
+
+fig.show()
+
+
+
+/Gráfico consulta 3
+
+import plotly.graph_objects as go
+
+fig = go.Figure(data=go.Scatter(
+    x=["DIREITO", "ENFERMAGEM", "PSICOLOGIA", "MEDICINA", "ENFERMAGEM", "FISIOTERAPIA", "DIREITO", "ENGENHARIA CIVIL", "ODONTOLOGIA", "DIREITO"],
+    y=[4789, 2638, 2415, 2256, 2138, 2088, 1846, 1689, 1524, 1473],
+    mode='markers',
+    marker=dict(size=[40, 60, 80, 100, 40, 60, 80, 100, 40],
+                color=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+))
+
+fig.show()
+
+
+
+
+
+
+
+
+
